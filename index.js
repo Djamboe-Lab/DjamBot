@@ -1,34 +1,51 @@
 require('isomorphic-fetch');
 
 var Dropbox = require("dropbox").Dropbox;
+var dbx = new Dropbox({ accessToken: process.env.DROPBOX_TOKEN });
 
-const Discord = require("discord.js");
-const bot = new Discord.Client();
+const { Client, RichEmbed } = require("discord.js");
+const client = new Client();
 
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN;
 const PREFIX = "!";
 
-bot.on("ready", () => {
-    console.log("This bot is online!");
+client.on("ready", () => {
+    console.log(`Logged in as ${client.user.tag}!`);
 })
 
-bot.on("message", msg => {
+client.on("message", msg => {
     if(msg.content.startsWith(PREFIX)){
         let message = msg.content.substring(PREFIX.length);
         let args = message.split(" ");
         
         if(args.length > 0) {
             try {
-                if(args[0] == "show"){
-                    let card_no = args[1];
+                if(args[0] == "help"){
+                    msg.channel.send(
+                        "- `!show unit_number`\n" +
+                        "- `!help`\n" +
+                        "- `!about`");
+                }
+                else if(args[0] == "about"){
+                    msg.channel.send("I am DjamBot, created with love by my Master, Djamboe");
+                }
+                else if(args[0] == "show"){
+                    let card_no = args[1] + (args[2] != null ? " " + args[2] : "");
                     let card_path = "/Photos/Remonster Cards/Updated/" + card_no + ".png";
                     
-                    var dbx = new Dropbox({ accessToken: process.env.DROPBOX_TOKEN });
                     dbx.filesGetTemporaryLink({path: card_path})
                         .then(function(response) {
-                            msg.channel.send(response.link);
+                            console.log(response);
+
+                            const embed = new RichEmbed();
+                            embed.setTitle("Re:Monster Card");
+                            embed.setImage(response.link);
+                            embed.setColor(0xFF0000);
+                            embed.setFooter("No. " + args[1]);
+                            msg.channel.send(embed);
                         })
                         .catch(function(error) {
+                            console.log(error);
                             msg.reply("Sorry, an error occured");
                         });
                 }else{
@@ -43,4 +60,4 @@ bot.on("message", msg => {
     }
 })
 
-bot.login(DISCORD_TOKEN);
+client.login(DISCORD_TOKEN);
