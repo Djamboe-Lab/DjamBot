@@ -57,6 +57,9 @@ client.on("message", msg => {
         }else{
             msg.reply("I don't understand");
         }
+    }else{
+        if(msg.content.indexOf("fuck") !== -1 || msg.content.indexOf("fvck") !== -1 || msg.content.indexOf("f*ck") !== -1)
+            msg.reply("Hey! Language..");
     }
 })
 
