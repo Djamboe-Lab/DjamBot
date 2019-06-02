@@ -1,7 +1,6 @@
 require('isomorphic-fetch');
 
 var Dropbox = require("dropbox").Dropbox;
-var dbx = new Dropbox({ accessToken: process.env.DROPBOX_TOKEN });
 
 const Discord = require("discord.js");
 const bot = new Discord.Client();
@@ -24,6 +23,7 @@ bot.on("message", msg => {
                     let card_no = args[1];
                     let card_path = "/Photos/Remonster Cards/Updated/" + card_no + ".png";
                     
+                    var dbx = new Dropbox({ accessToken: process.env.DROPBOX_TOKEN });
                     dbx.filesGetTemporaryLink({path: card_path})
                         .then(function(response) {
                             console.log(response);
