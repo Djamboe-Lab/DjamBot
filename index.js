@@ -15,14 +15,24 @@ client.on("ready", () => {
 
 client.on("message", msg => {
     if(msg.content.startsWith(PREFIX)){
-        let message = msg.content.substring(PREFIX.length);
+        let message = msg.content.toLowerCase().substring(PREFIX.length);
         let args = message.split(" ");
         
-        if(args.length > 0) {
+        if(message == "show tier list"){
+            const embed = new RichEmbed();
+                embed.setTitle("Re:Monster Tier List");
+                embed.setURL("https://docs.google.com/spreadsheets/d/1rC9_oQXl9DU4J13X9wRhW194FtOLFJP_udYj-f-ZtBs/edit?usp=sharing");
+                embed.setColor(0x239B56);
+                embed.setDescription("This tier list aims to help new players figure out the strength of their units and in which situations they are best placed.");
+                embed.setFooter("Thanks to @Tier List team");
+                msg.channel.send(embed);
+        }
+        else if(args.length > 0) {
             try {
                 if(args[0] == "help"){
                     msg.channel.send(
                         "- `!show unit_number`\n" +
+                        "- `!show tier list`\n" +
                         "- `!help`\n" +
                         "- `!about`");
                 }
@@ -58,8 +68,20 @@ client.on("message", msg => {
             msg.reply("I don't understand");
         }
     }else{
-        if(msg.content.indexOf("fuck") !== -1 || msg.content.indexOf("fvck") !== -1 || msg.content.indexOf("f*ck") !== -1)
+        let message = msg.content.toLowerCase();
+
+        if(message == "┬──┬◡ﾉ(° -°ﾉ)"){
+            msg.channel.send("(╯°Д°)╯︵/(.□ . \)");
+        }
+        else if(message.indexOf("tier list") !== -1 && message.indexOf("?") !== -1 && message.indexOf("?") > message.indexOf("tier list")){
+            msg.reply("Looks like you're looking for tier list. Please check #guides_and_lists or type `!show tier list` command.");
+        }
+        else if(message.indexOf("re-monster.fandom.com") !== -1 || message.indexOf("reddit.com/r/goblinreincarnation") !== -1){
+            msg.react("👍");
+        }
+        else if(message.indexOf("fuck") !== -1 || message.indexOf("fvck") !== -1 || message.indexOf("f*ck") !== -1){
             msg.reply("Hey! Language..");
+        }
     }
 })
 
