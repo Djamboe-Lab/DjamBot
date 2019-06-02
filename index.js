@@ -1,12 +1,12 @@
 require('isomorphic-fetch');
 
 var Dropbox = require("dropbox").Dropbox;
-var dbx = new Dropbox({ accessToken: "G7kep4ugLgkAAAAAAAABlGmBiMOBO8jpyrjfWBa0cPUgnN1Jl4Zu3G0113tVOvXY" });
+var dbx = new Dropbox({ accessToken: process.env.DROPBOX_TOKEN });
 
 const Discord = require("discord.js");
 const bot = new Discord.Client();
 
-const DISCORD_TOKEN = "NTg0NTgyNTc1NzY3NTUyMDAx.XPNDVA.3Er0WBYjpm_1ky_MD9hZWNE7fxs";
+const DISCORD_TOKEN = process.env.DISCORD_TOKEN;
 const PREFIX = "!";
 
 bot.on("ready", () => {
