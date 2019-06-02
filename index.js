@@ -26,11 +26,9 @@ bot.on("message", msg => {
                     var dbx = new Dropbox({ accessToken: process.env.DROPBOX_TOKEN });
                     dbx.filesGetTemporaryLink({path: card_path})
                         .then(function(response) {
-                            console.log(response);
-                            msg.channel.send(response);
+                            msg.channel.send(response.link);
                         })
                         .catch(function(error) {
-                            console.log(error);
                             msg.reply("Sorry, an error occured");
                         });
                 }else{
