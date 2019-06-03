@@ -8,6 +8,8 @@ const client = new Client();
 
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN;
 const PREFIX = "!";
+const fs = require("fs");
+var json = JSON.parse(fs.readFileSync('units.json', 'utf8'));
 
 client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}!`);
@@ -30,11 +32,17 @@ client.on("message", msg => {
         else if(args.length > 0) {
             try {
                 if(args[0] == "help"){
-                    msg.channel.send(
+                    let embed = new RichEmbed();
+                    embed.setTitle("Beeb Boop I'm DjamBot");
+                    embed.setDescription("`Created with love by my Master, Djamboe`");
+                    embed.addField("Command", 
                         "- `!show unit_number`\n" +
                         "- `!show tier list`\n" +
-                        "- `!help`\n" +
-                        "- `!about`");
+                        "- `!stats unit_number`\n" +
+                        "- `!help`");
+                    embed.setFooter("Any suggestion is welcome...");
+                    embed.setColor(0x5B2C6F);
+                    msg.channel.send(embed);
                 }
                 else if(args[0] == "about"){
                     msg.channel.send("I am DjamBot, created with love by my Master, Djamboe");
@@ -58,6 +66,37 @@ client.on("message", msg => {
                             console.log(error);
                             msg.reply("Sorry, an error occured");
                         });
+                }else if(args[0] == "stats"){
+                    let unitstats = json[args[1]];
+                    if(unitstats != null){
+                        let content = 
+                        "+-----+-------+------+-----+-------+-----+-----+-----+-----+------+\n" +
+                        "| EVO •  HP   • ATK  • DEF • MAG   • DEX • EVA • ACT • MV  • LCK  •\n" +
+                        "+-----+-------+------+-----+-------+-----+-----+-----+-----+------+\n";
+
+                        for(x=0; x<unitstats.data.length; x++){                            
+                            content += 
+                            "• " +
+                            unitstats.data[x].evo + " • " + 
+                            pad(unitstats.data[x].hp, 5) + " • " + 
+                            pad(unitstats.data[x].atk, 4) + " • " + 
+                            pad(unitstats.data[x].def, 3) + " • " + 
+                            pad(unitstats.data[x].mag, 5) + " • " + 
+                            pad(unitstats.data[x].dex, 3) + " • " + 
+                            pad(unitstats.data[x].eva, 3) + " • " + 
+                            pad(unitstats.data[x].act, 3) + " • " + 
+                            pad(unitstats.data[x].mv, 3) + " • " + 
+                            pad(unitstats.data[x].lck, 4) + " •\n" +
+                            "+-----+-------+------+-----+-------+-----+-----+-----+-----+------+\n";
+                        }
+                        let embed = new RichEmbed();
+                        embed.setTitle(unitstats.name);
+                        embed.setDescription("`" + unitstats.description + "`\n\n" + "`" + content + "`");
+                        embed.setFooter("No. " + args[1]);
+                        embed.setColor(0x2E86C1);
+                        msg.channel.send(embed);
+                    }else
+                        msg.reply("Data not found, please check your id");
                 }else{
                     msg.reply("I don't understand");
                 }
@@ -86,3 +125,8 @@ client.on("message", msg => {
 })
 
 client.login(DISCORD_TOKEN);
+
+function pad(str, max) {
+    str = str.toString();
+    return str.length < max ? pad(str + " ", max) : str;
+}
