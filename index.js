@@ -70,9 +70,9 @@ client.on("message", msg => {
                     let unitstats = json[args[1]];
                     if(unitstats != null){
                         let content = 
-                        "+-----+-------+------+-----+-------+-----+-----+-----+-----+------+\n" +
+                        "+-----------------------------------------------------------------+\n" +
                         "| EVO •  HP   • ATK  • DEF • MAG   • DEX • EVA • ACT • MV  • LCK  •\n" +
-                        "+-----+-------+------+-----+-------+-----+-----+-----+-----+------+\n";
+                        "+-----------------------------------------------------------------+\n";
 
                         for(x=0; x<unitstats.data.length; x++){                            
                             content += 
@@ -87,7 +87,7 @@ client.on("message", msg => {
                             pad(unitstats.data[x].act, 3) + " • " + 
                             pad(unitstats.data[x].mv, 3) + " • " + 
                             pad(unitstats.data[x].lck, 4) + " •\n" +
-                            "+-----+-------+------+-----+-------+-----+-----+-----+-----+------+\n";
+                            "+-----------------------------------------------------------------+\n";
                         }
                         let embed = new RichEmbed();
                         embed.setTitle(unitstats.name);
