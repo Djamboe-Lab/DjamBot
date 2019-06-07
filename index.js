@@ -182,6 +182,8 @@ client.on("message", msg => {
             msg.reply("Hey! Language..");
         }else if(message.indexOf("djam") !== -1){
             msg.react("350295066599751681");
+        }else if(message.indexOf("hyulton") !== -1){
+            msg.react("553598201895190568");
         }
     }
 })
