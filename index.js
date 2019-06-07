@@ -42,6 +42,7 @@ client.on("message", msg => {
                         "- `!show unit_number`\n" +
                         "- `!show tier list`\n" +
                         "- `!stats unit_number`\n" +
+                        "- `!compare unit_number_1 ... unit_number_n`\n" +
                         "- `!help`");
                     embed.setFooter("Any suggestion is welcome...");
                     embed.setColor(0x5B2C6F);
