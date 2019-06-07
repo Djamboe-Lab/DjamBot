@@ -182,8 +182,6 @@ client.on("message", msg => {
             msg.reply("Hey! Language..");
         }else if(message.indexOf("djam") !== -1){
             msg.react("350295066599751681");
-        }else if(message == "dye bot as red"){
-            msg.channel.send("?rubefan");
         }
     }
 })
