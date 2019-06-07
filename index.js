@@ -16,7 +16,10 @@ client.on("ready", () => {
 })
 
 client.on("message", msg => {
-    if(msg.content.startsWith(PREFIX)){
+    if(msg.author.id == "584582575767552001")
+        return;
+
+    if(msg.content.startsWith(PREFIX) && msg.content.length > 4){
         let message = msg.content.toLowerCase().substring(PREFIX.length);
         let args = message.split(" ");
         
@@ -55,10 +58,22 @@ client.on("message", msg => {
                         .then(function(response) {
                             console.log(response);
 
+                            let unitname = "";
+                            let addinfo = "";
+                            let unitstats = json[args[1]];
+                            if(unitstats != null && unitstats.data.length > 1){
+                                unitname = unitstats.name;
+                                addinfo = "This unit has " + unitstats.data.length + " variants. Type `!stats " + args[1] + "` to show more information."
+                            }
+
                             const embed = new RichEmbed();
-                            embed.setTitle("Re:Monster Card");
+                            embed.setTitle("Re:Monster Card" + (unitname != "" ? ": " + unitname : ""));
                             embed.setImage(response.link);
                             embed.setColor(0xFF0000);
+                            
+                            if(addinfo != "")
+                                embed.setDescription(addinfo);
+
                             embed.setFooter("No. " + args[1]);
                             msg.channel.send(embed);
                         })
@@ -71,22 +86,22 @@ client.on("message", msg => {
                     if(unitstats != null){
                         let content = 
                         "+-----------------------------------------------------------------+\n" +
-                        "| EVO •  HP   • ATK  • DEF • MAG   • DEX • EVA • ACT • MV  • LCK  •\n" +
+                        "• EVO • HP • ATK • DEF • MAG • DEX • EVA • ACT • MV • LCK •\n" +
                         "+-----------------------------------------------------------------+\n";
 
-                        for(x=0; x<unitstats.data.length; x++){                            
+                        for(x=0; x<unitstats.data.length; x++){
                             content += 
                             "• " +
                             unitstats.data[x].evo + " • " + 
-                            pad(unitstats.data[x].hp, 5) + " • " + 
-                            pad(unitstats.data[x].atk, 4) + " • " + 
-                            pad(unitstats.data[x].def, 3) + " • " + 
-                            pad(unitstats.data[x].mag, 5) + " • " + 
-                            pad(unitstats.data[x].dex, 3) + " • " + 
-                            pad(unitstats.data[x].eva, 3) + " • " + 
-                            pad(unitstats.data[x].act, 3) + " • " + 
-                            pad(unitstats.data[x].mv, 3) + " • " + 
-                            pad(unitstats.data[x].lck, 4) + " •\n" +
+                            unitstats.data[x].hp + " • " + 
+                            unitstats.data[x].atk + " • " + 
+                            unitstats.data[x].def + " • " + 
+                            unitstats.data[x].mag + " • " + 
+                            unitstats.data[x].dex + " • " + 
+                            unitstats.data[x].eva + " • " + 
+                            unitstats.data[x].act + " • " + 
+                            unitstats.data[x].mv + " • " + 
+                            unitstats.data[x].lck + " •\n" +
                             "+-----------------------------------------------------------------+\n";
                         }
                         let embed = new RichEmbed();
@@ -97,7 +112,50 @@ client.on("message", msg => {
                         msg.channel.send(embed);
                     }else
                         msg.reply("Data not found, please check your id");
-                }else{
+                }else if(args[0] == "compare"){
+                    let desc = "";
+                    let content = "";
+
+                    for(x=1; x<args.length; x++){
+                        let unitstats = json[args[x]];
+                        if(unitstats != null){
+                            desc += 
+                                "• " + args[x] + " " + unitstats.name + "\n";
+
+                            content += 
+                                "• " +
+                                args[x] + " • " +
+                                unitstats.data[0].evo + " • " + 
+                                unitstats.data[0].hp + " • " + 
+                                unitstats.data[0].atk + " • " + 
+                                unitstats.data[0].def + " • " + 
+                                unitstats.data[0].mag + " • " + 
+                                unitstats.data[0].dex + " • " + 
+                                unitstats.data[0].eva + " • " + 
+                                unitstats.data[0].act + " • " + 
+                                unitstats.data[0].mv + " • " + 
+                                unitstats.data[0].lck + " •\n";
+                        }
+                    }
+
+                    if(content != ""){
+                        content = 
+                            "`+-----------------------------------------------------------------+\n" +
+                            "• NO • EVO • HP • ATK • DEF • MAG • DEX • EVA • ACT • MV • LCK •\n" +
+                            "+-----------------------------------------------------------------+\n" +
+                            content + 
+                            "+-----------------------------------------------------------------+`\n";
+
+                        let embed = new RichEmbed();
+                        embed.setTitle("Stats Comparison");
+                        embed.setDescription("Comparison between\n" + desc + "\n" + content);
+                        embed.setColor(0xF7DC6F);
+                        msg.channel.send(embed);
+                    }else{
+                        msg.reply("Data not found, please check your id");
+                    }
+                }
+                else{
                     msg.reply("I don't understand");
                 }
             }catch{
@@ -119,14 +177,12 @@ client.on("message", msg => {
             msg.react("👍");
         }
         else if(message.indexOf("fuck") !== -1 || message.indexOf("fvck") !== -1 || message.indexOf("f*ck") !== -1){
+            msg.react("👎");
             msg.reply("Hey! Language..");
+        }else if(message.indexOf("djam") !== -1){
+            msg.react("350295066599751681");
         }
     }
 })
 
 client.login(DISCORD_TOKEN);
-
-function pad(str, max) {
-    str = str.toString();
-    return str.length < max ? pad(str + " ", max) : str;
-}
