@@ -62,9 +62,11 @@ client.on("message", msg => {
                             let unitname = "";
                             let addinfo = "";
                             let unitstats = json[args[1]];
-                            if(unitstats != null && unitstats.data.length > 1){
+                            if(unitstats != null){
                                 unitname = unitstats.name;
-                                addinfo = "This unit has " + unitstats.data.length + " variants. Type `!stats " + args[1] + "` to show more information."
+                                
+                                if(unitstats.data.length > 1)
+                                    addinfo = "This unit has " + unitstats.data.length + " variants. Type `!stats " + args[1] + "` to show more information."
                             }
 
                             const embed = new RichEmbed();
