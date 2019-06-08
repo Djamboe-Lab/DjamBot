@@ -177,12 +177,17 @@ client.on("message", msg => {
         else if(message.indexOf("re-monster.fandom.com") !== -1 || message.indexOf("reddit.com/r/goblinreincarnation") !== -1){
             msg.react("👍");
         }
-        else if(message.indexOf("fuck") !== -1 || message.indexOf("fvck") !== -1 || message.indexOf("f*ck") !== -1){
-            msg.react("👎");
+        
+        if(message.indexOf("fuck") !== -1 || message.indexOf("fvck") !== -1 || message.indexOf("f*ck") !== -1){
+            //msg.react("👎");
             msg.reply("Hey! Language..");
-        }else if(message.indexOf("djam") !== -1){
+        }
+
+        if(message.indexOf("djamb") !== -1){
             msg.react("350295066599751681");
-        }else if(message.indexOf("hyulton") !== -1){
+        }
+
+        if(message.indexOf("hyulton") !== -1){
             msg.react("553598201895190568");
         }
     }
