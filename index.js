@@ -22,6 +22,9 @@ const pool = new Pool({
     ssl: true
 });
 
+
+let fuResp = [ "Hey! Language..", "It's Hammer Time!", "ლ(ಠ益ಠლ)", "ಠ_ಠ" ];
+
 client.on("ready", () => {
     client.user.setPresence({
         game: {
@@ -34,7 +37,7 @@ client.on("ready", () => {
 })
 
 client.on("message", msg => {
-    if(msg.author.id == "584582575767552001")
+    if(msg.author.id == "584582575767552001" || msg.author.id == "584637129317941248")
         return;
 
     if(msg.content.startsWith(PREFIX) && msg.content.length > 4){
@@ -211,7 +214,9 @@ client.on("message", msg => {
         
         if(message.indexOf("fuck") !== -1 || message.indexOf("fvck") !== -1 || message.indexOf("f*ck") !== -1){
             //msg.react("👎");
-            msg.reply("Hey! Language..");
+            //msg.reply("Hey! Language..");
+
+            msg.reply(fuResp[Math.floor(Math.random() * fuResp.length)]);
         }
 
         if(message.indexOf("djamb") !== -1){
@@ -220,6 +225,14 @@ client.on("message", msg => {
 
         if(message.indexOf("hyulton") !== -1){
             msg.react("553598201895190568");
+        }
+
+        if(message.indexOf("keikaku") !== -1){
+            msg.channel.send("TL Note: keikaku means plans");
+        }
+
+        if(message == "sad" || message.indexOf("sad ") !== -1 || message.indexOf(" sad") !== -1){
+            msg.channel.send("Alexa, Play Despacito ♪");
         }
     }
 })
