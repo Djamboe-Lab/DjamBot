@@ -3,13 +3,24 @@ require('isomorphic-fetch');
 var Dropbox = require("dropbox").Dropbox;
 var dbx = new Dropbox({ accessToken: process.env.DROPBOX_TOKEN });
 
+
 const { Client, RichEmbed } = require("discord.js");
 const client = new Client();
 
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN;
 const PREFIX = "!";
+
+
 const fs = require("fs");
 var json = JSON.parse(fs.readFileSync('units.json', 'utf8'));
+
+
+const { Pool } = require("pg");
+
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: true
+});
 
 client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}!`);
@@ -167,6 +178,17 @@ client.on("message", msg => {
         }else{
             msg.reply("I don't understand");
         }
+        //insert to Database
+        let QUERY = "INSERT INTO BOT_LOG(USER_ID, COMMAND, DATE_ADDED) VALUES($1, $2, NOW()) RETURNING *";
+        let QUERY_VALUES = [ msg.author.username + "#" + msg.author.discriminator, message ];
+
+        pool.query(QUERY, QUERY_VALUES, (err, res) => {        
+            if (err) {
+                console.log(err.stack);
+            } else {
+                console.log(res.rows[0]);
+            }
+        });
     }else{
         let message = msg.content.toLowerCase();
 
