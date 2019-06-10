@@ -23,6 +23,13 @@ const pool = new Pool({
 });
 
 client.on("ready", () => {
+    client.user.setPresence({
+        game: {
+            name: 'you closely',
+            type: "WATCHING"
+        }
+    });
+    
     console.log(`Logged in as ${client.user.tag}!`);
 })
 
