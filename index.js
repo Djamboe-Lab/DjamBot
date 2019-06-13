@@ -93,7 +93,7 @@ client.on("message", msg => {
 
                             let unitequips = unitequips_json[args[1]];
                             if(unitequips != null){                                
-                                addinfo = "\nThis unit has " + unitequips.length + " equipment" + (unitequips.length > 1 ? "s": "") + ": `";
+                                addinfo += "\nThis unit has " + unitequips.length + " equipment" + (unitequips.length > 1 ? "s": "") + ": `";
 
                                 for(x=0; x<unitequips.length; x++){
                                     addinfo += unitequips[x];
