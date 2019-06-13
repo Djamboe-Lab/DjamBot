@@ -12,7 +12,8 @@ const PREFIX = "!";
 
 
 const fs = require("fs");
-var json = JSON.parse(fs.readFileSync('units.json', 'utf8'));
+var units_json = JSON.parse(fs.readFileSync('units.json', 'utf8'));
+var unitequips_json = JSON.parse(fs.readFileSync('unit_equips.json', 'utf8'));
 
 
 const { Pool } = require("pg");
@@ -82,12 +83,26 @@ client.on("message", msg => {
 
                             let unitname = "";
                             let addinfo = "";
-                            let unitstats = json[args[1]];
+                            let unitstats = units_json[args[1]];
                             if(unitstats != null){
                                 unitname = unitstats.name;
                                 
                                 if(unitstats.data.length > 1)
                                     addinfo = "This unit has " + unitstats.data.length + " variants. Type `!stats " + args[1] + "` to show more information."
+                            }
+
+                            let unitequips = unitequips_json[args[1]];
+                            if(unitequips != null){                                
+                                addinfo = "\nThis unit has " + unitequips.length + " equipment" + (unitequips.length > 1 ? "s": "") + ": `";
+
+                                for(x=0; x<unitequips.length; x++){
+                                    addinfo += unitequips[x];
+
+                                    if(x != unitequips.length-1)
+                                    addinfo += ", ";
+                                }
+
+                                addinfo += "`";
                             }
 
                             const embed = new RichEmbed();
@@ -106,7 +121,7 @@ client.on("message", msg => {
                             msg.reply("Sorry, an error occured");
                         });
                 }else if(args[0] == "stats"){
-                    let unitstats = json[args[1]];
+                    let unitstats = units_json[args[1]];
                     if(unitstats != null){
                         let content = 
                         "+-----------------------------------------------------------------+\n" +
@@ -141,7 +156,7 @@ client.on("message", msg => {
                     let content = "";
 
                     for(x=1; x<args.length; x++){
-                        let unitstats = json[args[x]];
+                        let unitstats = units_json[args[x]];
                         if(unitstats != null){
                             desc += 
                                 "• " + args[x] + " " + unitstats.name + "\n";
