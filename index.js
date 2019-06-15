@@ -25,6 +25,14 @@ const pool = new Pool({
 
 
 let fuResp = [ "Hey! Language..", "It's Hammer Time!", "ლ(ಠ益ಠლ)", "ಠ_ಠ" ];
+let thanksList = [ "thank you", "thanks", "ty", "thx", "tq" ];
+
+
+function AttachIsImage(msgAttach) {
+    var url = msgAttach.url;
+    return url.indexOf(".png") != -1 || url.indexOf(".jpg") != -1;
+}
+
 
 client.on("ready", () => {
     client.user.setPresence({
@@ -35,11 +43,16 @@ client.on("ready", () => {
     });
     
     console.log(`Logged in as ${client.user.tag}!`);
-})
+});
 
 client.on("message", msg => {
     if(msg.author.id == "584582575767552001" || msg.author.id == "584637129317941248")
         return;
+
+    if (msg.channel.type == "dm") {
+        msg.author.send("I'm not interested with private matter");
+        return;
+    }
 
     if(msg.content.startsWith(PREFIX) && msg.content.length > 4){
         let message = msg.content.toLowerCase().substring(PREFIX.length);
@@ -143,6 +156,7 @@ client.on("message", msg => {
                             unitstats.data[x].lck + " •\n" +
                             "+-----------------------------------------------------------------+\n";
                         }
+
                         let embed = new RichEmbed();
                         embed.setTitle(unitstats.name);
                         embed.setDescription("`" + unitstats.description + "`\n\n" + "`" + content + "`");
@@ -220,36 +234,60 @@ client.on("message", msg => {
         if(message == "┬──┬◡ﾉ(° -°ﾉ)"){
             msg.channel.send("(╯°Д°)╯︵/(.□ . \)");
         }
-        else if(message.indexOf("tier list") !== -1 && message.indexOf("?") !== -1 && message.indexOf("?") > message.indexOf("tier list")){
-            msg.reply("Looks like you're looking for tier list. Please check #guides_and_lists or type `!show tier list` command.");
+        else if(message.indexOf("tier list") != -1 && message.indexOf("?") != -1 && message.indexOf("?") > message.indexOf("tier list")){
+            msg.reply("Looks like you're looking for tier list. Please check <#300497680990339073> or type `!show tier list` command.");
         }
-        else if(message.indexOf("re-monster.fandom.com") !== -1 || message.indexOf("reddit.com/r/goblinreincarnation") !== -1){
-            msg.react("👍");
+        else if(message.indexOf("re-monster.fandom.com") != -1 || message.indexOf("reddit.com/r/goblinreincarnation") != -1){
+            msg.react("❤").then(() => msg.react("💛")).then(() => msg.react("💚")).then(() => msg.react("💙")).then(() => msg.react("💜"));
         }
         
-        if(message.indexOf("fuck") !== -1 || message.indexOf("fvck") !== -1 || message.indexOf("f*ck") !== -1){
+        if(message.indexOf("fuck") != -1 || message.indexOf("fvck") != -1 || message.indexOf("f*ck") != -1 || message.indexOf("fkn") != -1){
             //msg.react("👎");
             //msg.reply("Hey! Language..");
 
             msg.reply(fuResp[Math.floor(Math.random() * fuResp.length)]);
         }
 
-        if(message.indexOf("djamb") !== -1){
+        if(message.indexOf("djamb") != -1){
             msg.react("350295066599751681");
         }
 
-        if(message.indexOf("hyulton") !== -1){
+        if(message.indexOf("hyulton") != -1){
             msg.react("553598201895190568");
         }
 
-        if(message.indexOf("keikaku") !== -1){
+        if(message.indexOf("keikaku") != -1){
             msg.channel.send("TL Note: keikaku means plans");
         }
 
-        if(message == "sad" || message.indexOf("sad ") !== -1 || message.indexOf(" sad") !== -1){
+        if(message == "sad" || message.indexOf("sad ") != -1 || message.indexOf(" sad") != -1){
             msg.channel.send("Alexa, Play Despacito ♪");
         }
+
+        //terra welcome
+        if(msg.author.id == "172002275412279296" && message.startsWith("welcome")){
+            msg.react("299052456250441732");
+        }
+
+        if(thanksList.includes(message) || message.indexOf("thank you") != -1 || message.indexOf("thanks") != -1 || message.indexOf("thx") != -1 || message.indexOf("tq") != -1){
+            msg.react("👍");
+        }
+
+        //salt mines
+        if(msg.channel.id == "384601562984611840" && msg.attachments.size > 0) {
+            if (msg.attachments.every(AttachIsImage)){
+                msg.react("484903712972865536");
+            }
+        }
+
+        if(message.indexOf("nani") != -1){
+            msg.channel.send("https://www.youtube.com/watch?v=vxKBHX9Datw")
+        }
+
+        if(message.indexOf("wtf") != -1){
+            msg.react("😱");
+        }
     }
-})
+});
 
 client.login(DISCORD_TOKEN);
