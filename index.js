@@ -1,4 +1,5 @@
 require('isomorphic-fetch');
+const wikia = require("./wikia.js");
 
 var Dropbox = require("dropbox").Dropbox;
 var dbx = new Dropbox({ accessToken: process.env.DROPBOX_TOKEN });
@@ -41,7 +42,7 @@ client.on("ready", () => {
             type: "WATCHING"
         }
     });
-    
+
     console.log(`Logged in as ${client.user.tag}!`);
 });
 
@@ -156,13 +157,24 @@ client.on("message", msg => {
                             unitstats.data[x].lck + " •\n" +
                             "+-----------------------------------------------------------------+\n";
                         }
+                        
+                        wikia.GetImages("Icon_" + unitstats.image + ".png", function(resp){
+                            let imgThumb = "";
+                            if(resp != "error"){
+                                imgThumb = resp;
+                            }
 
-                        let embed = new RichEmbed();
-                        embed.setTitle(unitstats.name);
-                        embed.setDescription("`" + unitstats.description + "`\n\n" + "`" + content + "`");
-                        embed.setFooter("No. " + args[1]);
-                        embed.setColor(0x2E86C1);
-                        msg.channel.send(embed);
+                            let embed = new RichEmbed();
+                            embed.setTitle(unitstats.name);
+                            embed.setDescription("`" + unitstats.description + "`\n\n" + "`" + content + "`");
+                            embed.setFooter("No. " + args[1]);
+                            embed.setColor(0x2E86C1);
+
+                            if(imgThumb != "")
+                                embed.setThumbnail(imgThumb);
+                            
+                            msg.channel.send(embed);
+                        });
                     }else
                         msg.reply("Data not found, please check your id");
                 }else if(args[0] == "compare"){
