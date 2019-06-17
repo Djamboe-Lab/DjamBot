@@ -242,6 +242,12 @@ client.on("message", msg => {
         });
     }else{
         let message = msg.content.toLowerCase();
+        
+        //tekhien custom
+        if(msg.author.id == "233899667958661121" && msg.channel.id == "287985862388482048" && !msg.content.startsWith("t!")){
+            msg.react("🤔");
+            return;
+        }
 
         if(message == "┬──┬◡ﾉ(° -°ﾉ)"){
             msg.channel.send("(╯°Д°)╯︵/(.□ . \)");
@@ -298,6 +304,10 @@ client.on("message", msg => {
 
         if(message.indexOf("wtf") != -1){
             msg.react("😱");
+        }
+        
+        if(message.indexOf("lol") != -1 || message.indexOf("haha") != -1 || message.indexOf("xd") != -1){
+            msg.react("😂");
         }
     }
 });
