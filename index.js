@@ -275,7 +275,7 @@ client.on("message", msg => {
         }
 
         if(message.indexOf("keikaku") != -1){
-            msg.channel.send("TL Note: keikaku means plans");
+            msg.channel.send("TL Note: keikaku means plan");
         }
 
         if(message == "sad" || message.indexOf("sad ") != -1 || message.indexOf(" sad") != -1){
