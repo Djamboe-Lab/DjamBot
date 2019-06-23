@@ -27,6 +27,8 @@ const pool = new Pool({
 
 let fuResp = [ "Hey! Language..", "It's Hammer Time!", "ლ(ಠ益ಠლ)", "ಠ_ಠ" ];
 let thanksList = [ "thank you", "thanks", "ty", "thx", "tq" ];
+let thanksEmojiList = [ "👌", "👍", "👏" ];
+let smileEmojiList = [ "😀", "😬", "😁", "😂", "😃", "😄", "😆", "😇", "😊", "🙂", "🙃", "😅", "☺", "😋", "😌", "😺", "😸", "😹", "🤣" ];
 
 
 function AttachIsImage(msgAttach) {
@@ -288,7 +290,7 @@ client.on("message", msg => {
         }
 
         if(thanksList.includes(message) || message.indexOf("thank you") != -1 || message.indexOf("thanks") != -1 || message.indexOf("thx") != -1 || message.indexOf("tq") != -1){
-            msg.react("👍");
+            msg.react(thanksEmojiList[Math.floor(Math.random() * thanksEmojiList.length)]);
         }
 
         //salt mines
@@ -305,9 +307,9 @@ client.on("message", msg => {
         if(message.indexOf("wtf") != -1){
             msg.react("😱");
         }
-        
-        if(message.indexOf("lol") != -1 || message.indexOf("haha") != -1 || message.indexOf("xd") != -1){
-            msg.react("😂");
+
+        if(message.indexOf("lol") != -1 || message.indexOf("haha") != -1 || message.indexOf("ahah") != -1 || message.indexOf("xd") != -1){
+            msg.react(smileEmojiList[Math.floor(Math.random() * smileEmojiList.length)]);
         }
     }
 });
