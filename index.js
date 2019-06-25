@@ -257,8 +257,13 @@ client.on("message", msg => {
         else if(message.indexOf("tier list") != -1 && message.indexOf("?") != -1 && message.indexOf("?") > message.indexOf("tier list")){
             msg.reply("Looks like you're looking for tier list. Please check <#300497680990339073> or type `!show tier list` command.");
         }
-        else if(message.indexOf("re-monster.fandom.com") != -1 || message.indexOf("reddit.com/r/goblinreincarnation") != -1){
+        
+        if(message.indexOf("re-monster.fandom.com") != -1 || message.indexOf("reddit.com/r/goblinreincarnation") != -1){
             msg.react("❤").then(() => msg.react("💛")).then(() => msg.react("💚")).then(() => msg.react("💙")).then(() => msg.react("💜"));
+        }
+        
+        if(message.indexOf("jaiminisbox.com/reader/read/solo-leveling") != -1){
+            msg.react("🇭").then(() => msg.react("🇪")).then(() => msg.react("🇺")).then(() => msg.react("🇰")).then(() => msg.react("❔")).then(() => msg.react("❕"));
         }
         
         if(message.indexOf("fuck") != -1 || message.indexOf("fvck") != -1 || message.indexOf("f*ck") != -1 || message.indexOf("fkn") != -1){
