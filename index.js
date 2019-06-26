@@ -316,6 +316,18 @@ client.on("message", msg => {
         if(message.indexOf("lol") != -1 || message.indexOf("haha") != -1 || message.indexOf("ahah") != -1 || message.indexOf("xd") != -1){
             msg.react(smileEmojiList[Math.floor(Math.random() * smileEmojiList.length)]);
         }
+        
+        if(msg.author.id == "327359841154760707" && message.startsWith("speak")){
+            let guild = client.guilds.get("287871335227457536");
+            if(guild){
+                let channel = guild.channels.get("287871335227457536");
+                if(channel){
+                    channel.send(message.substring(5));
+                }else
+                    console.log("Channel not found!");
+            }else
+                console.log("Guild not found!");
+        }
     }
 });
 
