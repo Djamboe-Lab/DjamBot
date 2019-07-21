@@ -247,7 +247,7 @@ client.on("message", msg => {
         
         //tekhien custom
         if(msg.author.id == "233899667958661121" && msg.channel.id == "287985862388482048" && !msg.content.startsWith("t!")){
-            msg.react("🤔");
+            //msg.react("🤔");
             return;
         }
 
