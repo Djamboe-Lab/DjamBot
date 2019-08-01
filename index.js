@@ -13,7 +13,7 @@ const PREFIX = "!";
 
 
 const fs = require("fs");
-var units_json = JSON.parse(fs.readFileSync('units.json', 'utf8'));
+//var units_json = JSON.parse(fs.readFileSync('units.json', 'utf8'));
 var unitequips_json = JSON.parse(fs.readFileSync('unit_equips.json', 'utf8'));
 
 
@@ -79,7 +79,7 @@ client.on("message", msg => {
                     embed.addField("Command", 
                         "- `!show unit_number`\n" +
                         "- `!show tier list`\n" +
-                        "- `!stats unit_number`\n" +
+                        //"- `!stats unit_number`\n" +
                         "- `!compare unit_number_1 ... unit_number_n`\n" +
                         "- `!help`");
                     embed.setFooter("Any suggestion is welcome...");
@@ -99,6 +99,8 @@ client.on("message", msg => {
 
                             let unitname = "";
                             let addinfo = "";
+                            
+                            /*/
                             let unitstats = units_json[args[1]];
                             if(unitstats != null){
                                 unitname = unitstats.name;
@@ -106,6 +108,7 @@ client.on("message", msg => {
                                 if(unitstats.data.length > 1)
                                     addinfo = "This unit has " + unitstats.data.length + " variants. Type `!stats " + args[1] + "` to show more information."
                             }
+                            //*/
 
                             let unitequips = unitequips_json[args[1]];
                             if(unitequips != null){                                
@@ -136,7 +139,9 @@ client.on("message", msg => {
                             console.log(error);
                             msg.reply("Sorry, an error occured");
                         });
-                }else if(args[0] == "stats"){
+                }
+                /*/
+                else if(args[0] == "stats"){
                     let unitstats = units_json[args[1]];
                     if(unitstats != null){
                         let content = 
@@ -222,6 +227,7 @@ client.on("message", msg => {
                         msg.reply("Data not found, please check your id");
                     }
                 }
+                //*/
                 else{
                     msg.reply("I don't understand");
                 }
